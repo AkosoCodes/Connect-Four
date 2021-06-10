@@ -10,6 +10,7 @@
 #define checkerPlayer1 'X'
 #define checkerPlayer2 'O'
 #define checkerWinner 'Y'
+#define Saves "SAVES.txt"
 
 //      Normal Comment
 //*     Highlighted Comment
@@ -20,12 +21,12 @@
 //------------------------------------------------------------------------------------------------
 
 //! VARIABLES
-int menuOption; 
-int board[y][x];
-int returnToMenu;
+int board[y][x]; 
+char PLAYER_1[18]; 
+char PLAYER_2[18]; 
 
-char PLAYER_1[18];
-char PLAYER_2[18];
+int menuOption; 
+int returnToMenu;
 
 int result = 0;
 int choice = 0;
@@ -34,26 +35,35 @@ int gameResult;
 
 
 //! FUNCTIONS
-void startMenu(); //Starts the Main Menu.
-void newGame(); //Starts a New Game
-void loadMenu();
-void endMenu();
-void exitGame(int code);
+void startMenu(); // Main Menu
+void loadMenu(); // Load Menu
+void rules(); // Rules Tab
+void infoAndrija(); // Info Tab
+void endMenu(); // End Menu
 
-void showBoard(); // Shows the actual board.
-int gameLoop();
-int boardState(); // board state checks for conditions
-bool addChecker(int _column, int _checker);
-void fillInMatch(int _row, int _column, int _rowPattern, int _columnPattern);
-bool CheckForMatches(int _row, int _column, int _rowPattern, int _columnPattern);
+int gameLoop(); // Game Loop
+void showBoard(); // Shows the board
 void clearBoard(); //Clears Board
-void infoAndrija();
-void rules(); // Opens the rules for the game.
-void clear(); // Clears the terminal.
-bool invalidChar(char *string, char invalidChar);
+bool addChecker(int Column, int _checker); // Adds Checkers
+
+void newGame(bool loadedGame); // New Game
+void loadGame(); // Load Game
+void saveGame(); // Save Game
+
+int boardState(); // Checks the state of the Board
+bool CheckForMatches(int Row, int Column, int RowPattern, int ColumnPattern); // Checks for win condition
+void fillInMatch(int Row, int Column, int RowPattern, int ColumnPattern); // Replaces checker for Y
+
+bool loadData(int Mode, int Id, char *Name); // Loads Save File
+void listSavedGames(); // Shows all saved games
+void listSavedPlayer(); // Shows all saved games of a certain player
+void showBoardID(); // Displays certain board
+
+void clear(); // Clears the terminal
+bool invalidChar(char *String, char invalidChar); // Checks for invalid characters
+void exitGame(int Code); // Exit Game
 
 
-//* MAIN BODY
 int main(){
 
     //Starts the program with the Start Menu
@@ -63,136 +73,131 @@ int main(){
 }
 
 
-
-
-//*                 Main Menu Functions
+//*===================================================
+//*                Main Menu Functions
 //*===================================================
 
-//! Start Menu Function
+//! START MENU 
 void startMenu(){
 
     //* Do-While loop makes sure that it is repeated until the user makes a valid input.
-    //  in this case, they select a option from the Menu.
     do
     {
-        //clears the terminal
-        clear();
+        clear(); // clears the terminal
 
-        //Prints the Menu and options.
-        printf("\n");
-        printf("              -=- Connect Four -=-          \n");
-        printf("           What would you like to do?       \n");
-        printf("        +=============================+\n");
+        // Prints the Menu and options.
+        printf("\n"); 
+        printf("              -=- Connect Four -=-       \n");
+        printf("           What would you like to do?    \n");
+        printf("        +=============================+  \n");
         printf("        |   1. New Game               |  \n");
         printf("        |   2. Load Saved Game        |  \n");
         printf("        |   3. How to play?           |  \n");
         printf("        |   4. Information            |  \n");
         printf("        |   5. Exit Game              |  \n");
-        printf("        +=============================+\n");
+        printf("        +=============================+  \n");
 
-        //Scans for input
-        scanf("%d",&menuOption);
+        scanf("%d",&menuOption); //Scans for player input
 
-        //Flushes the input and clears the buffer so that a infinite loop doesn't occur.
-        fflush(stdin);
+       
+        fflush(stdin);  //Flushes the input and clears the buffer so that a infinite loop doesn't occur.
 
-    } while (menuOption > 5 || menuOption < 1);     //Checks whether the input is valid. in the case that it is not valid, the whole loop will repeat.
+    } while (menuOption > 5 || menuOption < 1);     
+    //Checks whether the input is valid. in the case that it is not valid, the whole loop will repeat.
 
 
     //* Switch scans the previous input and assigns it to the particular case.
-    //  Then, the case applies the code inside it.
     switch (menuOption)
     {
 
-        //* New Game
-        case 1:
-            newGame();
+        case 1: // Starts a New Game
+            newGame(false);
         break;
 
-        //* Load Game
-        case 2:
+        case 2: // Opens the Load Game Menu
             loadMenu();
         break;
 
-        //* Rules
-        //Opens the Rules function, where the instructions for the game are shown.
-        case 3:
+        case 3: // Opens the Rules tab
             rules();
         break;
 
-        //* Information
-        // opens information about me - Andrija :D
-        case 4:
+        case 4: // Opens information about me - Andrija :D
             infoAndrija();
         break;
 
-        //* Exit Game
-        //ends the switch operation and the startingMenu Function, and starts the code after the function in main.
-        case 5:
+        case 5: // Opens the Exit Game function.
             endMenu();
         return;
     }
-      
 }
 
-//! Load Menu Function
+//! LOAD MENU
 void loadMenu(){
 
     do
     {
-        //clears the terminal
-        clear();
+    
+        clear(); // clears the terminal
 
         //Prints the Menu and options.
         printf("\n");
-        printf("              -=- Connect Four -=-          \n");
-        printf("           What would you like to do?       \n");
-        printf("        +=============================+\n");
+        printf("              -=- Connect Four -=-       \n");
+        printf("           What would you like to do?    \n");
+        printf("        +=============================+  \n");
         printf("        |   1. Load Game              |  \n");
         printf("        |   2. List all saved games   |  \n");
         printf("        |   3. List all Players       |  \n");
         printf("        |   4. Show a Board with ID   |  \n");
         printf("        |   5. Return to Main menu    |  \n");
-        printf("        +=============================+\n");
+        printf("        +=============================+  \n");
 
-        //Scans for input
-        scanf("%d",&menuOption);
+        scanf("%d",&menuOption); // Scans for player input
 
-        //Flushes the input and clears the buffer so that a infinite loop doesn't occur.
-        fflush(stdin);
+        
+        fflush(stdin); // Flushes the input and clears the buffer so that a infinite loop doesn't occur.
+
     } while (menuOption > 5 || menuOption < 1);
     
     switch(menuOption){
 
-        //* Load Game
-        // Loads a saved game
-        case 1:
+        case 1: // Loads a saved game
+            loadGame();
         break;
 
-        //* List Saved Games
-        // Lists all the saved games from the save file.
-        case 2:
+        case 2: // Lists all the saved games from the save file.
+                
+                clear(); // clears the terminal
+
+                printf("\n");
+                printf("                -=- All Saves -=-      \n");
+                printf("        +=============================+\n");
+                listSavedGames(); //* List Saves Games Function
+                printf("        +=============================+\n");
+                system("pause");
+                loadMenu();
         break;
 
-        //* List Players
-        // Lists all the saved players from the save file.
-        case 3:
+        case 3: // Lists all the saved players from the save file.
+                clear();
+                listSavedPlayer(); //* List Saves by Player Function
+                system("pause");
+                loadMenu();
         break;
 
-        //* Show a Board with ID
-        // Shows a specific Board with ID
-        case 4:
+        
+        case 4: // Shows a specific Board with ID
+            showBoardID(); //* Shows a Board with ID Function
+            loadMenu();
         break;
 
-        //* Return to Main Menu
-        // Returns back to Starting Menu
-        case 5:
+        case 5: // Returns back to Starting Menu
             startMenu();
         break;
     }
 }
 
-//! Rules Function
+//! RULES
 void rules(){
 
     do
@@ -220,57 +225,119 @@ void rules(){
     }
 }
 
-//! Information Function
+//! INFORMATION
 void infoAndrija(){
 
     do
     {
-    clear();
+        clear(); // clears the termina
 
-    printf("This whole program was written by Andrija Stankovic - 2020230164\n");
-    //Written by Andrija Stankovic! :)
+        printf("\n");
+        printf("                        -=- Information -=-         \n");
+        printf("\n");
+        printf("                This whole program was written by   \n");
+        printf("                 Andrija Stankovic - 2020230164     \n");
+        printf("\n");
 
-    printf("1. Return to Main Menu: ");
-    scanf("%d", &returnToMenu);
+        printf("1. Return to Main Menu: ");
+        scanf("%d", &returnToMenu); // Scans for player input
 
-    //Flushes the input and clears the buffer so that a infinite loop doesn't occur.
-    fflush(stdin);
-    } while (returnToMenu != 1);
-    
-    startMenu();
-
+        
+        fflush(stdin); // Flushes the input and clears the buffer so that a infinite loop doesn't occur.
+        } while (returnToMenu != 1);
+        
+        startMenu();
 }
 
-//! End Menu Function
+//! END MENU
 void endMenu(){
-
 
     do
     {
         clear();
 
-        printf("Are you sure you want to quit?\n");
-        printf("1. No, take me back.\n");
-        printf("2. Yes, quit the game.\n");
+        printf("\n");
+        printf("Are you sure you want to quit?  \n");
+        printf("1. No, take me back.            \n");
+        printf("2. Yes, quit the game.          \n");
 
-        scanf("%d", &returnToMenu);
+        scanf("%d", &returnToMenu); // Scans for player input
 
-    } while (returnToMenu>2 || returnToMenu < 1);
+    } while (returnToMenu > 2 || returnToMenu < 1);
 
     if(returnToMenu == 1){
         startMenu();
     } else 
     exitGame(0);
-    
 }
 
 
+
+
+//*===================================================
+//*                     Game Logic
 //*===================================================
 
+//! GAME LOOP
+int gameLoop(){
+
+    int choice = -1; // Player Input
+    int check = 0; // Check Board Input
+
+    while(true){
+        
+        clear(); // clears the terminal
+        check = boardState();
+
+        //Displays the board
+        showBoard();
+
+        if(check == 0) {
+            
+            choice = -1; // resets the choice
+
+            printf("It is %s's turn to play. \n", currentPlayer ? PLAYER_2 : PLAYER_1);
+            printf("Select a column (1-%d) or press 0 to save: ", x);
+
+            scanf("%d", &choice); //Get player input
+
+            fflush(stdin); //Flushes the input and clears the buffer so that a infinite loop doesn't occur.
+
+            if (choice > 0 && choice <=x){
+                
+                if (addChecker(choice, currentPlayer + 1)){
+                    currentPlayer = !currentPlayer; //If we successfully added a checker, change the player
+                } else{
+
+                    //If we did not add the checker, then inform that the column is full.
+                    printf("Column %d is full, please select a valid column.\n", choice);
+                    system("pause");
+                }
+            } else if(choice == 0){
+
+                //Saves the game and pauses
+                saveGame();
+                system("pause");
+            } else {
+
+                //If the input was not 0, nor in range of the board, the player made an invalid choice
+                printf("****Invalid choice****\n");
+                system("pause");
+            }  
+        } else {
+
+            //If our check returns anything other than 0, that means the game came to an end and pass that value back to StartGame
+            return check;
+        }
+    }
+
+    return 0;
+}
+
+//! SHOW BOARD
 void showBoard(){
 
-        //Clears Intro
-        clear();
+        clear(); // clears the terminal
 
         //For loop to print horizontal border.      
         for(int i = 0; i<y; i++){
@@ -321,182 +388,41 @@ void showBoard(){
             printf("\n");
 }
 
-void ClearBoard() {
-    //Loop through the elements and set all of them to 0
+//! CLEAR BOARD
+void clearBoard(){
+    //Goes from one element to another and sets it to 0.
     for (int i = 0; i < y; i++) {
         for (int j = 0; j < x; j++) {
-            board[x][y] = 0;
+            board[i][j] = 0;
         }
     }
 }
 
-//! NEW GAME
-void newGame(){
+//! ADD CHECKER
+bool addChecker(int Column, int _checker) {
 
-    //Player 1 chooses the name
-    do {
-        clear();
-
-        //Enter names
-        printf("STARTING NEW GAME:\n");
-        printf("Please enter the name of Player 1: ");
-        scanf("%s", &PLAYER_1);
-
-        //Flushes the input and clears the buffer so that a infinite loop doesn't occur.
-        fflush(stdin);
-
-    } while (invalidChar(PLAYER_1, ',')); //Checks whether the name contains ',', as that would be an invalid character due to how the games are stored and saved.
-    
-    //Player 2 chooses the name
-    do {
-        clear();
-
-        //Enter names
-        printf("STARTING NEW GAME:\n");
-        printf("Please enter the name of Player 2: ");
-        scanf("%s", &PLAYER_2);
-
-        //Flushes the input and clears the buffer so that a infinite loop doesn't occur.
-        fflush(stdin);
-        
-    } while (invalidChar(PLAYER_2, ',')); //Checks whether the name contains ',', as that would be an invalid character due to how the games are stored and saved.
-
-    while(true){
-    clearBoard(board); //Clears the board
-    currentPlayer = 0; //Sets turn to Player 1
-    
-    result = gameLoop();
-
-    //Checks the winner
-    switch(result){
-
-        //If Player 1 wins.
-        case 1:
-            printf("%s won the game!\n", PLAYER_1);
-            system("pause");
-        break;
-
-        //If Player 2 wins.
-        case 2:
-            printf("%s won the game!\n", PLAYER_2);
-            system("pause");
-        break;
-
-        //If it is a draw.
-        case 3:
-            printf("The game is a draw!\n");
-            system("pause");
-        break;
-
-        //Otherwise, if there is another output for some reason, just break the funtion.
-        default:
-        break;
-    }
-    
-    //After Game options
-    do {
-        choice = 0;
-        clear();
-
-        printf("What do you want to do next?\n");
-        printf("1. Play another game!\n");
-        printf("2. Return to Main Menu\n");
-        printf("Choose an option: ");
-
-        //scans for input.
-        scanf("%d", &choice);
-
-        //Flushes the input and clears the buffer so that a infinite loop doesn't occur.
-        fflush(stdin);
-    } while (choice != 1 && choice != 2);
-
-        //Check player choice
-        if (choice == 1) {
-            //If the player choose 1, repeat the game loop
-            continue;
-        } else {
-            //If the player choose 0,break and return to main menu
-            startMenu();
-        }
-        
-    }
-}
-
-//! GAME LOOP
-int gameLoop(){
-
-    //Player Input
-    int choice = -1;
-
-    //Check Board Input
-    int check = 0;
-
-    while(true){
-        
-        clear();
-        check = boardState();
-
-        //Displays the board
-        showBoard();
-        if(check == 0) {
-            //resets the choice
-            choice = -1;
-
-            printf("It is %s's turn to play. \n", currentPlayer ? PLAYER_2 : PLAYER_1);
-            printf("Select a column (1-%d) or press 0 to save: ", x);
-
-            //Get player input
-            scanf("%d", &choice);
-
-            //Flushes the input and clears the buffer so that a infinite loop doesn't occur.
-            fflush(stdin);
-
-            if (choice > 0 && choice <=x){
-                
-                if (addChecker(choice, currentPlayer + 1)){
-
-                    //If we successfully added a checker, change the player
-                    currentPlayer = !currentPlayer;
-                } else{
-                    //If we did not add the checker, then inform that the column is full.
-                    printf("Column %d is full, please select a valid column.\n", choice);
-                    system("pause");
-                }
-            } else if(choice == 0){
-                //saveGame();
-            } else {
-                //If the input was not 0, nor in range of the board, the player made an invalid choice
-                printf("****Invalid choice****\n");
-                system("pause");
-            }  
-        } else {
-            //If our check returns anything other than 0, that means the game came to an end and pass that value back to StartGame
-            return check;
-        }
-    }
-
-    return 0;
-}
-
-//! Add Checker
-bool addChecker(int _column, int _checker) {
     //Loop through elements vertically
     for (int i = y - 1; i >= 0; i--) {
-        if (board[i][_column - 1] == 0) {
-            //If we find an empty slot, add a checker
-            board[i][_column - 1] = _checker;
-            //Return true meaning we successfully added a checker
-            return true;
+        if (board[i][Column - 1] == 0) {
+            
+            board[i][Column - 1] = _checker; // If we find an empty slot, add a checker
+            
+            return true; // If successfully added a checker, return TRUE.
         }
     }
-    //If we did not exit the funtion with 1 during the for loop, exit with false
-    //meaning that we can't add a checker in this column
+    //If we cannot add checker, return FALSE.
     return false;
 }
 
-//! Board State
+
+
+
+//*===================================================
+//*                  Win Conditions
+//*===================================================
+
+//! BOARD STATE
 int boardState(){
-    //Checks the board for matches
 
     int winner = 0;
 
@@ -576,26 +502,26 @@ int boardState(){
     return winner;
 }
 
-//! Fill in the
-void fillInMatch(int _row, int _column, int _rowPattern, int _columnPattern) {
-    //Based on the starting element and pattern, loop throught the match size and set
-    //every element to Y, marking the winner match
+//! FILLS MATCH
+void fillInMatch(int Row, int Column, int RowPattern, int ColumnPattern) {
+    //Depending on the starting element and pattern, loop throught pattern and replace it with a Y.
     for (int i = 0; i < matchSize; i++) {
-        board[_row + _rowPattern * i][_column + _columnPattern * i] = 3;
+        board[Row + RowPattern * i][Column + ColumnPattern * i] = 3;
     }
 }
 
-//! Check for MatchError
-bool CheckForMatches(int _row, int _column, int _rowPattern, int _columnPattern) {
-    //Count the matches
+//! CHECKS FOR WIN
+bool CheckForMatches(int Row, int Column, int RowPattern, int ColumnPattern) {
+
     int matches = 0;
+
     //Loop through elements following a pattern and find if any of them match
     for (int i = 0; i < matchSize; i++) {
         //Check if any any of the elements are 0
-        if (board[_row + _rowPattern * i][_column + _columnPattern * i] == 0) {
+        if (board[Row + RowPattern * i][Column + ColumnPattern * i] == 0) {
             //If they are, skip this check since we know that 0 is a empty field
             return false;
-        } else if (board[_row + _rowPattern * i][_column + _columnPattern * i] == board[_row][_column]) {
+        } else if (board[Row + RowPattern * i][Column + ColumnPattern * i] == board[Row][Column]) {
             //If the element matches the first element, count the match
             matches++;
         } else {
@@ -604,27 +530,401 @@ bool CheckForMatches(int _row, int _column, int _rowPattern, int _columnPattern)
         }
     }
     if (matches == matchSize) {
-        //If we matched MATCH_SIZE of elements, return true meaning there is a winner
-        return true;
+        
+        return true; //If there is a Winner, return TRUE.
     }
-    //If we didn't match MATCH_SIZE, return false meaning we did not find any winners
-    return false;
+    
+    return false; // If there are no Winners, return FALSE.
 }
 
-//! Clear Board Function
-void clearBoard(){
-    //Goes from one element to another and sets it to 0.
-    for (int i = 0; i < y; i++) {
-        for (int j = 0; j < x; j++) {
-            board[x][y] = 0;
+
+
+//*===================================================
+//*                New and Load Game
+//*===================================================
+
+//! NEW GAME
+void newGame(bool loadedGame){
+
+//* Choose player names if the game is not loaded
+if(!loadedGame){
+
+    //* Player 1 chooses the name
+    do {
+        clear();
+
+        //Enter name
+        printf("STARTING NEW GAME:\n");
+        printf("Please enter the name of Player 1: ");
+        scanf("%s", &PLAYER_1);
+
+        fflush(stdin); // Flushes the input and clears the buffer so that a infinite loop doesn't occur.
+
+    } while (invalidChar(PLAYER_1, '-')); // Checks whether the name contains '-', as that would be an invalid character due to how the games are stored and saved.
+    
+
+    //* Player 2 chooses the name
+    do {
+        clear();
+
+        //Enter names
+        printf("STARTING NEW GAME:\n");
+        printf("Please enter the name of Player 2: ");
+        scanf("%s", &PLAYER_2);
+
+        //Flushes the input and clears the buffer so that a infinite loop doesn't occur.
+        fflush(stdin);
+        
+    } while (invalidChar(PLAYER_2, '-')); //Checks whether the name contains '-', as that would be an invalid character due to how the games are stored and saved.
+}
+    
+    while(true){
+    if (!loadedGame) {
+
+            //If the game is not loaded, it clears the board and sets the first player to PLAYER 1.
+            clearBoard(board);
+            currentPlayer = 0;
+        } else {
+            //If the game is loaded, return to false for the next loop.
+            loadedGame = false;
+        }
+    
+    result = gameLoop();
+
+    //* Checks for Winner
+    switch(result){
+
+        //* Player 1 WINS!
+        case 1:
+            printf("%s won the game!\n", PLAYER_1);
+            system("pause");
+        break;
+
+        //* Player 2 WINS!
+        case 2:
+            printf("%s won the game!\n", PLAYER_2);
+            system("pause");
+        break;
+
+        //* DRAW!
+        case 3:
+            printf("The game is a draw!\n");
+            system("pause");
+        break;
+
+        //* safeguard option
+        default:
+        break;
+    }
+    
+    //* After Game options
+    do {
+        choice = 0;
+        clear();
+
+        printf("What do you want to do next?\n");
+        printf("1. Play another game!\n");
+        printf("2. Return to Main Menu\n");
+        printf("Choose an option: ");
+
+        scanf("%d", &choice); // scans for input.
+        
+        fflush(stdin); // Flushes the input and clears the buffer so that a infinite loop doesn't occur.
+
+    } while (choice != 1 && choice != 2);
+
+        //Check player choice
+        if (choice == 1) {
+
+            continue; // Repeats the Game loop
+        } else {
+    
+            startMenu(); // Returns to Menu
         }
     }
 }
 
-//! Exit Game Function (Thank you)
-void exitGame(int code){
-    //Prints out the message
+//! LOAD GAME
+void loadGame() {
+
+    int id = 0;
+
     clear();
+
+    printf("\n"); printf("                -=- Load Game -=-      \n");
+    printf("\n"); printf("Please enter the ID of the save: ");
+
+    scanf("%d", &id); // Scans player input
+
+    clear();
+    printf("                -=- Load Game -=-      \n");
+
+    //Loads data and Starts the game
+    if (!loadData(0, id, NULL)) {
+        //If there is no Save, inform the user.
+        printf("There are no saves with said ID\n");
+        system("pause");
+    } else {
+        newGame(true);
+    }
+}
+
+//! SAVE GAME
+void saveGame(){
+    
+
+    FILE *saveFile; // Pointer to the save file
+    int lastID = 0; // This is the last saved ID in the save file
+    char line[256]; // String in which data is stored
+    
+    //First opens in reading only mode to acquire existing Information
+    saveFile = fopen(Saves, "r");
+    if (saveFile){
+        while (fgets(line, sizeof(line), saveFile)){
+            char *token = strtok(line, "-");
+            lastID = atoi(token);
+        } //It will ignore the first part due to NULL, and read the first thing after a "-" which is the last ID
+        fclose(saveFile);
+    } else {
+        lastID = 0;
+    }
+
+    saveFile = fopen(Saves, "a");
+    if(saveFile){
+
+        //If there is a file, then it writes the players, their ID +1, who the current player is and the board information.
+        fprintf(saveFile, "%d-%s-%s-%d", lastID + 1, PLAYER_1, PLAYER_2, currentPlayer);
+        for (int i = 0; i < y; i++) {
+            for (int j = 0; j < x; j++) {
+                fprintf(saveFile, "-%d", board[i][j]);
+            }
+        }
+    
+    fprintf(saveFile, "\n");
+    fclose(saveFile);
+
+    printf("The game was successfuly saved with ID: %d\n", lastID + 1);
+    } else {
+        //Print a message if something is wrong
+        printf("There was a problem creating a save\n");
+        }
+}
+
+//! LOAD DATA
+bool loadData(int mode, int Id, char *Name) {
+
+    FILE *file; // Pointer to our file
+    
+    file = fopen(Saves, "r"); // Open file for reading
+    if (file) {
+        // If the file is located, create temporary variables
+        int id;
+        int displayedSaves = 0;
+        int emptySlots = 0;
+        int tokenIndex = 0;
+        char line[256];
+        char *token;
+
+        //Reads through the File lines and stores it into line[] with a maximum of 256 characters.
+        while (fgets(line, sizeof(line), file)) {
+            // Clears all previous data for each line
+            id = 0;
+            strcpy(PLAYER_1, "");
+            strcpy(PLAYER_2, "");
+            currentPlayer = 0;
+            clearBoard();
+            
+            tokenIndex = 0; // Token Index is used to know which element is being read
+            token = strtok(line, "-"); // Split the line into tokens
+
+            while (token != NULL) {
+                switch (tokenIndex) {
+                    case 0:
+                        id = atoi(token); // Reads the ID
+                        break;
+
+                    case 1:
+                        strcpy(PLAYER_1, token); // Reads the Player 1
+                        break;
+
+                    case 2:
+                        strcpy(PLAYER_2, token); // Reads the Player 2
+                        break;
+
+                    case 3:
+                        currentPlayer = atoi(token); // Reads the Current Player
+                        break;
+
+                    default:
+                        //Converts the sequence to a 2D array and reads the board
+                        board[(tokenIndex - 4) / x][(tokenIndex - 4) % x] = atoi(token);
+                        break;
+                }
+                
+                token = strtok(NULL, "-"); // Repeats the process for each line in the save file.
+                tokenIndex++;
+            }
+
+            //After all tokens, emptySlots count how many empty spaces are on the board for that game.
+            emptySlots = 0;
+            for (int i = 0; i < y; i++) {
+                for (int j = 0; j < x; j++) {
+                    if (board[i][j] == 0) {
+                        emptySlots++;
+                    }
+                }
+            }
+            
+
+            //*   Different Modes called by other functions
+            switch (mode) {
+
+                //* Load Game
+                case 0:
+                    //Mode 0 returns true if the current loaded save matches our search
+                    //The data remains in the global variables, and we start a game using it
+                    if (id == Id) {
+                        fclose(file);
+                        return true;
+                    }
+                    break;
+
+                //* Shows all Saved Games
+                case 1:
+                    //Mode 1 prints out all the saves we have and counts how many it printed out
+                    printf("      %d | %s vs %s | %d\n", id, PLAYER_1, PLAYER_2, emptySlots);
+                    displayedSaves++;
+                    break;
+
+                //* Shows all Saved Games for a specific Player
+                case 2:
+                    //Mode 2 check if any of the loaded players match with the search, and prints out only those saves
+                    //It also counts how many it printed out
+                    if (strcmp(Name, PLAYER_1) == 0 || strcmp(Name, PLAYER_2) == 0) {
+                        printf("      %d | %s vs %s | %d\n", id, PLAYER_1, PLAYER_2, emptySlots);
+                        displayedSaves++;
+                    }
+                    break;
+
+                //* Shows a Board with a specific ID
+                case 3:
+                    if (id == Id) {
+                        fclose(file);
+                        showBoard();
+                        printf("'%c' - %s\n", checkerPlayer1, PLAYER_1);
+                        printf("'%c' - %s\n", checkerPlayer2, PLAYER_2);
+                        return true;
+                    }
+                    break;
+            }
+        }
+        
+        fclose(file); // Closes the Save File
+        
+        //Returns true if a message was displayed.
+        if (displayedSaves != 0) {
+            return true;
+        }
+
+        return false; // Otherwise, if the file exists but there are no results then return false.
+    } else {
+        //Otherwise, if there is no file, return false with a message.
+        printf("A Save file does not exist.\n");
+        return false;
+    }
+}
+
+//! LIST SAVES
+void listSavedGames(){
+
+    // Displays all saved Games
+    if (!loadData(1, 0, NULL)) {    
+        //If there are no saves, inform the user.
+        printf("There are no saves\n");
+    }
+}
+
+//! LIST SAVES BY PLAYER
+void listSavedPlayer(){
+
+    char name[20];
+
+    clear();
+    printf("\n"); printf("           -=- All Saves for Player -=-      \n");
+    printf("\n"); printf("Please enter the name: ");
+
+    scanf("%s", name); // Scans user input
+
+    fflush(stdin); // Flushes the input and clears the buffer so that a infinite loop doesn't occur.
+    clear(); 
+
+    printf("\n");
+    printf("           -=- All Saves for %s -=-      \n");
+    printf("        +=============================+\n");
+
+    // Loads data and Shows all Saved Games for the specific player
+    if (!loadData(2, 0, name)) {
+        //If there are no games, inform the user
+        printf("There are no saves with said player\n");
+    }
+    printf("        +=============================+\n");
+}
+
+//! SHOW BOARD WITH ID
+void showBoardID(){
+
+    int id = 0;
+
+    clear();
+    
+    printf("\n"); printf("             -=- Draw Board -=-      \n"); 
+    printf("\n"); printf("Please enter the ID of the board:");
+    
+    scanf("%d", &id); //Scans player input
+    
+    fflush(stdin); // Flushes the input and clears the buffer so that a infinite loop doesn't occur.
+    clear();
+
+    printf("             -=- Draw Board -=-      \n");
+    //Loads data and display a board
+    if (!loadData(3, id, NULL)) {
+        //If there is no save, inform the user.
+        printf("There are no saves with said ID\n");
+    }
+    system("pause");
+}
+
+
+
+
+//*===================================================
+//*                     Other
+//*===================================================
+
+//! Clear Terminal Function
+void clear(){
+    system("cls"); // clears the terminal
+}
+
+//! Invalid Char Boolean Function 
+bool invalidChar(char *String, char invalidChar){
+
+    //It checks all elements within the string and returns TRUE if there is a '-' character inside it.
+    for (int i = 0; i < strlen(String); i++) {
+        if (String[i] == invalidChar) {
+            return true;
+        }
+    }
+    
+    return false; // If there are no invalid characters, it returns False and the game continues.
+}
+
+//! Exit Game Function (Thank you)
+void exitGame(int Code){
+    
+    clear(); // clears the console
+
+    //* THANK YOU
     printf(" _______ __   __ _______ __    _ ___   _   __   __ _______ __   __  \n");
     printf("|       |  | |  |   _   |  |  | |   | | | |  | |  |       |  | |  | \n");
     printf("|_     _|  |_|  |  |_|  |   |_| |   |_| | |  |_|  |   _   |  | |  | \n");
@@ -634,8 +934,8 @@ void exitGame(int code){
     printf("  |___| |__| |__|__| |__|_|  |__|___| |_|   |___| |_______|_______| \n");
     printf("\n");
 
-
-    printf("_______ _______ ______     _______ ___     _______ __   __ ___ __    _ _______ __  \n");
+    //* FOR PLAYING
+    printf(" _______ _______ ______     _______ ___     _______ __   __ ___ __    _ _______ __  \n");
     printf("|       |       |    _ |   |       |   |   |   _   |  | |  |   |  |  | |       |  |\n"); 
     printf("|    ___|   _   |   | ||   |    _  |   |   |  |_|  |  |_|  |   |   |_| |    ___|  |\n");
     printf("|   |___|  | |  |   |_||_  |   |_| |   |   |       |       |   |       |   | __|  |\n"); 
@@ -645,27 +945,8 @@ void exitGame(int code){
 
     printf("\n"); printf("\n");
 
-    //Terminates the program
-    exit(code);
+    exit(Code); // Terminates the program
 }
 
-//! Clear Terminal Function
-void clear(){
-        
-    //clears the terminal
-    system("cls");
-
-}
-
-//! Invalid Char Boolean Function
-bool invalidChar(char *string, char invalidChar){
-    //It checks all elements within the string and returns TRUE if there is a ',' character inside it.
-    for (int i = 0; i < strlen(string); i++) {
-        if (string[i] == invalidChar) {
-            return true;
-        }
-    }
-    //If not, then it returns false and the program continues.
-    return false;
-}
-
+// Created by Andrija Stanković - 2020230164
+//?                               :)
