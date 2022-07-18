@@ -6,7 +6,7 @@
 - [🧐 | Project Task <a name="project_task"></a>](#--project-task-)
 - [💡 | Logic & Features  <a name="project_logic"></a>](#--logic--features--)
 - [🏁 | Getting Started <a name="getting_started"></a>](#--getting-started-)
-- [⛏️ | Languages & Tools <a name="languages_&_tools"></a>](#️--languages--tools-)
+- [🧰 | Languages & Tools <a name="languages_&_tools"></a>](#️--languages--tools-)
 - [⚖ | License <a name="license"></a>](#--license-)
 
 
@@ -36,7 +36,6 @@ If at any point one of the players enters 0 instead of an integer 1 to 7, progra
 If the load game option is selected, the user should input the ID of the saved game and then start the game from the saved point. From this point on, the game will continue from the saved point as normal.<br>
 
 
-
 ## 🏁 | Getting Started <a name="getting_started"></a>
 These instructions will get you a copy of the project up and running on your local machine.
 
@@ -52,8 +51,7 @@ These instructions will get you a copy of the project up and running on your loc
 <li>Have fun! :D</li>
 </ol><br>
 
-## ⛏️ | Languages & Tools <a name="languages_&_tools"></a>
-___
+## 🧰 | Languages & Tools <a name="languages_&_tools"></a>
 <p><img src="https://img.icons8.com/color/452/c-programming.png" width=30 alt="C">
 <a href="https://code.visualstudio.com/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/768px-Visual_Studio_Code_1.35_icon.svg.png?20210804221519" width=30 alt="VS-Code"></a></p>
 
