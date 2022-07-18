@@ -1,29 +1,61 @@
-**CONNECT FOUR PROJECT**
+<h1 align="center">Connect Four</h1>
 
-**Project task:** Write a program that implements a computer version of the connect four (https://en.wikipedia.org/wiki/Connect_Four) game. 
+<p>This was a game assigned for the 'Principles of Computer Programming' course as Singidunum University.</p>
 
-The game is played on a board that is 7 fields wide and 6 fields high. It is played by two players with the symbols ‘X’ and ‘O’. Players can choose the column in which their symbol is placed on top of the symbols that are already in that column. The winner is the player that first makes a row of 4 symbols either vertically, horizontally or diagonally. The goal is to write a program that implements this game. When started the program should display main menu with the following three options: 
+## 📝 | Table of Contents
+- [🧐 | Project Task <a name="project_task"></a>](#--project-task-)
+- [💡 | Logic & Features  <a name="project_logic"></a>](#--logic--features--)
+- [🏁 | Getting Started <a name="getting_started"></a>](#--getting-started-)
+- [⛏️ | Languages & Tools <a name="languages_&_tools"></a>](#️--languages--tools-)
+- [⚖ | License <a name="license"></a>](#--license-)
 
-1.)Play a new game 
-2.)Load already saved game 
-3.)Exit the game
 
-If option 1.) Play a new gameis chosen, the program should allow players to enter their names. First the ’X’ player should make its move by entering an integer number from 1 to 7 which indicates the row in which he would like to place his symbol. After this, the program should switch the player turns and allow each player to enter its sign to the board. After each turn, program should print out the state of the board. Game ends either if one of the players connects 4 symbols in a column or if the whole board is filled with signs and no one won. Program should check these ending conditions after each turn and properly inform the players if the game has ended and who won. If someone wins, program should print out the board with the higlighted connected symbols that caused the victory. This could be done by printing the board with ’Y’ symbols on the places of the connected symbols. After the game has ended, players should be asked if they would like to start a new game or go back to the main menu. If during the play a player selects a row that is already filled with symbols, program should inform him that such a move is not allowed and ask him to select some other row. If at any point one of the players enters 0 instead of an integer 1 to 7, program should save the current game. Game is saved by saving the current state of the board and the player names. Each new saved game should have a unique ID of the saved game. After saving the game, program should inform the players that their gamehas been saved and print the ID of the saved game, after this the game play should continue in the described way without further interruption. After saving the game result should be saved inside the file result.txt.
+## 🧐 | Project Task <a name="project_task"></a>
 
-If option 2.) Load already saved game is chosen, a new menu opens with the following options: 
-1.)List all saved games 
-2.)List all saved games for a particular player 
-3.)Show the board of one of the saved games 
-4.)Load a game 
-5.)Return to main menu  
+Write a program that implements a computer version of the connect four (https://en.wikipedia.org/wiki/Connect_Four) game.
 
-If 1.) List all saved games is selected, program should list all the games that are saved in the file. Games should be listedis the following format: ID, ’X’ player name, ’O’ player name, number of free fields left on the board Each saved game should be printed in a new line  
+The game is played on a board that is 7 fields wide and 6 fields high. It is played by two players with the symbols ‘X’ and ‘O’. Players can choose the column in which their symbol is placed on top of the symbols that are already in that column. The winner is the player that first makes a row of 4 symbols either vertically, horizontally or diagonally.<br>
 
-If 2.) List all saved games for a particular player is selected, program should ask the user to enter a name and then it should list all the saved games that have that name as one of the players in the same format as specified above.  
 
-If 3.) Show the board of one of the saved games is selected, program should ask the user to enter anID of a saved game and then print out the player names and the board for that game. 
 
-If 4.) Load a gameis selected, program should ask the user to enter an ID of the saved game and then start the game from the saved point. From this point on, the programshould behave in the same way as when a new game is played. Once a loaded game has finished, program should allow the players to either start a new game (with empty board) or to return to main menu –i.e. the same choices that they have when they play a game from an empty board. 
+## 💡 | Logic & Features  <a name="project_logic"></a>
 
-If in options 3.) and 4.) user selects a non-existing ID, program should inform him about this and ask him to enter a valid ID.  
+**<h3>Game Logic</h3>**
+First the *’X’* player should make its move by entering an integer number from 1 to 7 which indicates the row in which the symbol should be placed. Afterwards, the program switches turns and allows the other player to make their move. At the end of each turn, the state of the board is printed onto the terminal, and the program checks whether a win/ending condition is fulfilled. After the game has ended, players have the option to start a new game or go back to the main menu.<br>
 
+  **<h4>Ending Conditions</h4>**
+The game ends if one of the following cases is true:<ul>
+    <li><strong>A Player connects at least 4 symbols</strong> <i>(Horizontal, Vertical or Diagonal connection)</i></li>
+    <li><strong>The board is filled</strong> <i>(No more spaces)</i></li>
+</ul>If someone wins, the board with the higlighted connected symbols that caused the victory is printed, and the winner is informed.<br>
+
+**<h3>Saving</h3>**
+If at any point one of the players enters 0 instead of an integer 1 to 7, program should save the current game. The current state of the board, including the player names is then saved, using a unique ID. After saving the game, the ID of the game is printed in the console and the game continues without further interruption. The game itself is logged and saved inside the file result.txt.<br>
+
+**<h3>Loading</h3>**
+If the load game option is selected, the user should input the ID of the saved game and then start the game from the saved point. From this point on, the game will continue from the saved point as normal.<br>
+
+
+
+## 🏁 | Getting Started <a name="getting_started"></a>
+These instructions will get you a copy of the project up and running on your local machine.
+
+**<h3>Requirements:</h3>**
+<ul>
+<li>C/C++ Compiler</li>
+</ul>
+
+**<h3>Guide:</h3>**
+<ol>
+<li>Compile the file</li>
+<li>Run the output</li>
+<li>Have fun! :D</li>
+</ol><br>
+
+## ⛏️ | Languages & Tools <a name="languages_&_tools"></a>
+___
+<p><img src="https://img.icons8.com/color/452/c-programming.png" width=30 alt="C">
+<a href="https://code.visualstudio.com/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/768px-Visual_Studio_Code_1.35_icon.svg.png?20210804221519" width=30 alt="VS-Code"></a></p>
+
+## ⚖ | License <a name="license"></a>
+This repository is not under any license. Normal copyright laws apply!
