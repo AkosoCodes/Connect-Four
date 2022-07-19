@@ -3,11 +3,11 @@
 <p>This was a game assigned for the 'Principles of Computer Programming' course as Singidunum University.</p>
 
 ## 📝 | Table of Contents
-- [🧐 | Project Task <a name="project_task"></a>](#--project-task-)
-- [💡 | Logic & Features  <a name="project_logic"></a>](#--logic--features--)
-- [🏁 | Getting Started <a name="getting_started"></a>](#--getting-started-)
-- [🧰 | Languages & Tools <a name="languages_&_tools"></a>](#️--languages--tools-)
-- [⚖ | License <a name="license"></a>](#--license-)
+- [🧐 Project Task <a name="project_task"></a>](#--project-task-)
+- [💡 Logic & Features  <a name="project_logic"></a>](#--logic--features--)
+- [🏁 Getting Started <a name="getting_started"></a>](#--getting-started-)
+- [🧰 Languages & Tools <a name="languages_&_tools"></a>](#️--languages--tools-)
+- [⚖ License <a name="license"></a>](#--license-)
 
 
 ## 🧐 | Project Task <a name="project_task"></a>
