@@ -56,4 +56,4 @@ These instructions will get you a copy of the project up and running on your loc
 <a href="https://code.visualstudio.com/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/768px-Visual_Studio_Code_1.35_icon.svg.png?20210804221519" width=30 alt="VS-Code"></a></p>
 
 ## ⚖ | License <a name="license"></a>
-This repository is not under any license. Normal copyright laws apply!
+This repository is not under any license. Normal copyright laws apply.
