@@ -5,8 +5,9 @@
 ## 📝 | Table of Contents
 - [🧐 Project Task <a name="project_task"></a>](#--project-task-)
 - [💡 Logic & Features  <a name="project_logic"></a>](#--logic--features--)
+- [📸 Demonstration <a name="demo"></a>](#--demonstration-)
+- [🧰 Languages & Tools <a name="languages_&_tools"></a>](#--languages--tools-)
 - [🏁 Getting Started <a name="getting_started"></a>](#--getting-started-)
-- [🧰 Languages & Tools <a name="languages_&_tools"></a>](#️--languages--tools-)
 - [⚖ License <a name="license"></a>](#--license-)
 
 
@@ -15,7 +16,6 @@
 Write a program that implements a computer version of the connect four (https://en.wikipedia.org/wiki/Connect_Four) game.
 
 The game is played on a board that is 7 fields wide and 6 fields high. It is played by two players with the symbols ‘X’ and ‘O’. Players can choose the column in which their symbol is placed on top of the symbols that are already in that column. The winner is the player that first makes a row of 4 symbols either vertically, horizontally or diagonally.<br>
-
 
 
 ## 💡 | Logic & Features  <a name="project_logic"></a>
@@ -35,6 +35,22 @@ If at any point one of the players enters 0 instead of an integer 1 to 7, progra
 **<h3>Loading</h3>**
 If the load game option is selected, the user should input the ID of the saved game and then start the game from the saved point. From this point on, the game will continue from the saved point as normal.<br>
 
+## 📸 | Demonstration <a name="demo"></a>
+
+<h3>Menu:</h3>
+<img src="https://user-images.githubusercontent.com/74971935/179793994-d123bfdf-d624-4892-a66e-221024c342fb.gif" width="400px">
+
+<h3>Game Demo:</h3>
+<img src="https://user-images.githubusercontent.com/74971935/179793989-5ed41385-fbb8-404f-a330-7b5800cd2818.gif" width="400px">
+
+<h3>Saving & Loading Demo:</h3>
+<img src="https://user-images.githubusercontent.com/74971935/179796146-a8cc0944-9636-461b-bfd6-9234a766e150.gif" width="400px">
+
+
+## 🧰 | Languages & Tools <a name="languages_&_tools"></a>
+<p><img src="https://img.icons8.com/color/452/c-programming.png" width=30 alt="C">
+<a href="https://code.visualstudio.com/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/768px-Visual_Studio_Code_1.35_icon.svg.png?20210804221519" width=30 alt="VS-Code"></a></p>
+
 
 ## 🏁 | Getting Started <a name="getting_started"></a>
 These instructions will get you a copy of the project up and running on your local machine.
@@ -51,9 +67,6 @@ These instructions will get you a copy of the project up and running on your loc
 <li>Have fun! :D</li>
 </ol><br>
 
-## 🧰 | Languages & Tools <a name="languages_&_tools"></a>
-<p><img src="https://img.icons8.com/color/452/c-programming.png" width=30 alt="C">
-<a href="https://code.visualstudio.com/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/768px-Visual_Studio_Code_1.35_icon.svg.png?20210804221519" width=30 alt="VS-Code"></a></p>
 
 ## ⚖ | License <a name="license"></a>
 This repository is not under any license. Normal copyright laws apply.
