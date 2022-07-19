@@ -272,8 +272,6 @@ void endMenu(){
 }
 
 
-
-
 //*===================================================
 //*                     Game Logic
 //*===================================================
@@ -297,7 +295,7 @@ int gameLoop(){
             choice = -1; // resets the choice
 
             printf("It is %s's turn to play. \n", currentPlayer ? PLAYER_2 : PLAYER_1);
-            printf("Select a column (1-%d) or press 0 to save: ", x);
+            printf("Select a column (1-%d), press 0 to save, press 9 to EXIT: ", x);
 
             scanf("%d", &choice); //Get player input
 
@@ -318,6 +316,8 @@ int gameLoop(){
                 //Saves the game and pauses
                 saveGame();
                 system("pause");
+            } else if(choice == 9){
+                startMenu();
             } else {
 
                 //If the input was not 0, nor in range of the board, the player made an invalid choice
@@ -536,7 +536,6 @@ bool CheckForMatches(int Row, int Column, int RowPattern, int ColumnPattern) {
     
     return false; // If there are no Winners, return FALSE.
 }
-
 
 
 //*===================================================
@@ -894,9 +893,6 @@ void showBoardID(){
     system("pause");
 }
 
-
-
-
 //*===================================================
 //*                     Other
 //*===================================================
@@ -949,4 +945,4 @@ void exitGame(int Code){
 }
 
 // Created by Andrija Stanković - 2020230164
-//?                               :D
+//?                               :)
